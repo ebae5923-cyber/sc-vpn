@@ -84,7 +84,6 @@ class Server(threading.Thread):
         finally:
             self.threadsLock.release()
 
-
 class ConnectionHandler(threading.Thread):
     def __init__(self, socClient, server, addr):
         threading.Thread.__init__(self)
@@ -139,8 +138,6 @@ class ConnectionHandler(threading.Thread):
             self.server.printLog(self.log)
             pass
         finally:
-            if not self.clientClosed:
-                self.client.sendall(RESPONSE.encode())
             self.close()
             self.server.removeConn(self)
 
@@ -218,7 +215,6 @@ class ConnectionHandler(threading.Thread):
             if error:
                 break
 
-
 def print_usage():
     print('Usage: proxy.py -p <port1,port2,...>')
     print('       proxy.py -b <bindAddr> -p <port1,port2,...>')
@@ -241,7 +237,6 @@ def parse_args(argv):
             LISTENING_ADDR = arg
         elif opt in ("-p", "--port"):
             LISTENING_PORTS = [int(port) for port in arg.split(',')]
-
 
 def main(host=LISTENING_ADDR, ports=LISTENING_PORTS):
     print("\n:-------PythonProxy-------:\n")
